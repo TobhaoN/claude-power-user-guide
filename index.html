@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Power User Setup Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafaf8; --bg2: #f0efe9; --bg3: #e6e5df;
+  --text: #1a1a18; --text2: #5c5b56; --text3: #8a8983;
+  --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
+  --blue: #2563eb; --blue-bg: #eff6ff; --blue-text: #1d4ed8;
+  --amber-bg: #fffbeb; --amber-text: #92400e;
+  --green-bg: #f0fdf4; --green-text: #166534;
+  --red-bg: #fef2f2; --red-text: #991b1b;
+  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 10px; --radius-lg: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141413; --bg2: #1e1e1c; --bg3: #2a2a27;
+    --text: #e8e7e2; --text2: #a3a29c; --text3: #73726c;
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+    --blue: #60a5fa; --blue-bg: #172554; --blue-text: #93c5fd;
+    --amber-bg: #451a03; --amber-text: #fbbf24;
+    --green-bg: #052e16; --green-text: #86efac;
+    --red-bg: #450a0a; --red-text: #fca5a5;
+  }
+}
+</style>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); color: var(--text); background: var(--bg); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Hero */
+.hero { padding: 3.5rem 0 2.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+.hero h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+.hero .sub { font-size: 15px; color: var(--text2); max-width: 560px; }
+.hero .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 20px; }
+.badge-blue { background: var(--blue-bg); color: var(--blue-text); }
+.badge-green { background: var(--green-bg); color: var(--green-text); }
+.badge-amber { background: var(--amber-bg); color: var(--amber-text); }
+
+/* TOC */
+.toc { background: var(--bg2); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 2.5rem; }
+.toc h2 { font-size: 13px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.toc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px; }
+.toc a { font-size: 14px; padding: 4px 0; display: block; }
+.toc .num { color: var(--text3); font-weight: 500; margin-right: 6px; font-size: 12px; }
+</style>
+<style>
+/* Sections */
+.section { margin-bottom: 3rem; }
+.section-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; padding-top: 6px; }
+.section-header .snum { font-size: 13px; font-weight: 600; color: var(--blue-text); background: var(--blue-bg); width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.section-header h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+.section h3 { font-size: 16px; font-weight: 500; margin: 1.5rem 0 8px; }
+.section p, .section li { font-size: 14.5px; color: var(--text); }
+.section p { margin-bottom: 10px; }
+.section ul, .section ol { padding-left: 1.25rem; margin-bottom: 14px; }
+.section li { margin-bottom: 5px; }
+
+/* Step cards */
+.step { background: var(--bg2); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 10px; display: flex; gap: 12px; }
+.step .sn { width: 22px; height: 22px; border-radius: 50%; background: var(--blue-bg); color: var(--blue-text); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-content { flex: 1; }
+.step-content .title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+.step-content .body { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* Callouts */
+.callout { border-radius: var(--radius); padding: 12px 16px; margin: 14px 0; font-size: 13px; line-height: 1.6; }
+.callout-info { background: var(--blue-bg); color: var(--blue-text); }
+.callout-warn { background: var(--amber-bg); color: var(--amber-text); }
+.callout-ok { background: var(--green-bg); color: var(--green-text); }
+</style>
+<style>
+/* Code */
+code { font-family: var(--mono); font-size: 12.5px; background: var(--bg3); padding: 2px 7px; border-radius: 5px; }
+pre { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; overflow-x: auto; margin: 10px 0 14px; }
+pre code { background: none; padding: 0; font-size: 12.5px; line-height: 1.7; }
+
+/* Prereq grid */
+.prereq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
+.prereq-item { background: var(--bg2); border-radius: var(--radius); padding: 12px 16px; }
+.prereq-item .label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+.prereq-item .val { font-size: 14px; font-weight: 500; margin-top: 4px; }
+
+/* Divider */
+hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+/* Tip cards */
+.tip { background: var(--bg2); border-left: 3px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 18px; margin-bottom: 10px; }
+.tip .tip-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+.tip .tip-body { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* Footer */
+.footer { padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 1rem; text-align: center; }
+.footer p { font-size: 12px; color: var(--text3); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hero h1 { font-size: 22px; }
+  .toc-grid { grid-template-columns: 1fr; }
+  .prereq-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Claude power user setup guide</h1>
+  <p class="sub">Everything you need to build automated workflows with Claude in Chrome, Desktop Commander, and GitHub. From zero to a daily auto-publishing news briefing.</p>
+  <div class="badges">
+    <span class="badge badge-blue">Claude in Chrome</span>
+    <span class="badge badge-green">Desktop Commander</span>
+    <span class="badge badge-amber">GitHub Pages</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>What's in this guide</h2>
+  <div class="toc-grid">
+    <a href="#prereqs"><span class="num">0</span> Prerequisites</a>
+    <a href="#chrome"><span class="num">1</span> Install Claude in Chrome</a>
+    <a href="#dc"><span class="num">2</span> Set up Desktop Commander</a>
+    <a href="#github"><span class="num">3</span> Set up GitHub for publishing</a>
+    <a href="#shortcuts"><span class="num">4</span> Create your first shortcut</a>
+    <a href="#schedule"><span class="num">5</span> Schedule it automatically</a>
+    <a href="#example"><span class="num">6</span> Example: daily news briefing</a>
+    <a href="#tips"><span class="num">7</span> Tips and gotchas</a>
+  </div>
+</div>
+<!-- PREREQS -->
+<div class="section" id="prereqs">
+  <div class="section-header"><span class="snum">0</span><h2>Prerequisites</h2></div>
+  <div class="prereq-grid">
+    <div class="prereq-item"><div class="label">Claude plan</div><div class="val">Pro, Max, Team, or Enterprise</div></div>
+    <div class="prereq-item"><div class="label">Browser</div><div class="val">Google Chrome</div></div>
+    <div class="prereq-item"><div class="label">Desktop app</div><div class="val">Claude Desktop (latest)</div></div>
+    <div class="prereq-item"><div class="label">GitHub account</div><div class="val">Free tier is fine</div></div>
+  </div>
+  <div class="callout callout-info">All three tools work together. Chrome handles browser automation. Desktop Commander handles your local files and terminal. GitHub gives you a free place to publish HTML outputs as live web pages anyone can click.</div>
+</div>
+
+<hr>
+
+<!-- CHROME -->
+<div class="section" id="chrome">
+  <div class="section-header"><span class="snum">1</span><h2>Install Claude in Chrome</h2></div>
+  <p>This is the browser extension that lets Claude see your screen, click buttons, fill forms, and navigate websites on your behalf.</p>
+
+  <div class="step"><span class="sn">1</span><div class="step-content"><div class="title">Install the extension</div><div class="body">Go to the <a href="https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn">Chrome Web Store</a> and click "Add to Chrome." Confirm the permissions popup.</div></div></div>
+  <div class="step"><span class="sn">2</span><div class="step-content"><div class="title">Pin it to your toolbar</div><div class="body">Click the puzzle piece icon in Chrome's toolbar, then click the thumbtack next to "Claude." The icon now stays visible.</div></div></div>
+  <div class="step"><span class="sn">3</span><div class="step-content"><div class="title">Sign in</div><div class="body">Click the Claude icon to open the side panel. Sign in with your Claude account credentials.</div></div></div>
+  <div class="step"><span class="sn">4</span><div class="step-content"><div class="title">Grant permissions</div><div class="body">Claude will ask for permissions to interact with websites. Start with trusted sites you use regularly. You can always adjust later in the extension settings.</div></div></div>
+  <h3>Connect to Claude Desktop (optional but recommended)</h3>
+  <p>This lets Desktop tasks trigger browser actions and vice versa — the full pipeline.</p>
+  <ol>
+    <li>Open Claude Desktop</li>
+    <li>Click your initials (bottom left) → Settings</li>
+    <li>Find the Chrome connector toggle and turn it on</li>
+    <li>It'll prompt you to install the extension if you haven't already</li>
+  </ol>
+  <div class="callout callout-info">Once connected, Claude in Chrome appears in the "Connectors" dropdown on your Desktop chats. Enable it per-conversation as needed.</div>
+</div>
+
+<hr>
+
+<!-- DESKTOP COMMANDER -->
+<div class="section" id="dc">
+  <div class="section-header"><span class="snum">2</span><h2>Set up Desktop Commander</h2></div>
+  <p>Desktop Commander is an MCP (Model Context Protocol) extension that gives Claude access to your file system and terminal. It's what lets Claude save files to your machine, run scripts, and manage local workflows. No API costs — works with your standard Claude subscription.</p>
+
+  <h3>Option A: install from the extension directory</h3>
+  <div class="step"><span class="sn">1</span><div class="step-content"><div class="title">Open Claude Desktop → Settings → Extensions</div><div class="body">Click the hamburger menu (☰) in the top-left → Settings → Extensions.</div></div></div>
+  <div class="step"><span class="sn">2</span><div class="step-content"><div class="title">Search for "Desktop Commander"</div><div class="body">Click Install. Restart Claude Desktop when prompted. Done.</div></div></div>
+
+  <h3>Option B: install from terminal</h3>
+  <p>If it's not in the Extensions directory:</p>
+  <pre><code>npx @wonderwhy-er/desktop-commander@latest setup</code></pre>
+  <p>Then restart Claude Desktop. It auto-updates every time you restart the app — no maintenance needed.</p>
+
+  <h3>Verify it works</h3>
+  <p>Open a new chat in Claude Desktop and type:</p>
+  <pre><code>List the files on my Desktop</code></pre>
+  <p>If Claude responds with your actual Desktop files, you're good.</p>
+  <div class="callout callout-ok">Desktop Commander works with your standard Claude Pro subscription ($20/mo). No API costs. No extra fees.</div>
+</div>
+<hr>
+
+<!-- GITHUB -->
+<div class="section" id="github">
+  <div class="section-header"><span class="snum">3</span><h2>Set up GitHub for publishing</h2></div>
+  <p>GitHub Pages gives you a free, permanent URL for anything Claude creates — briefings, reports, dashboards, whatever. Push an HTML file, get a live link you can share with anyone.</p>
+
+  <h3>Create a GitHub account</h3>
+  <p>If you don't have one: go to <a href="https://github.com/signup">github.com/signup</a> and follow the prompts. Free tier is all you need.</p>
+
+  <h3>Create a repository</h3>
+  <div class="step"><span class="sn">1</span><div class="step-content"><div class="title">Go to github.com → click "+" → "New repository"</div><div class="body">Name it something descriptive like <code>daily-briefing</code> or <code>my-reports</code>. Set it to <strong>Public</strong> (required for free GitHub Pages). Check "Add a README file." Click Create repository.</div></div></div>
+
+  <h3>Enable GitHub Pages</h3>
+  <div class="step"><span class="sn">2</span><div class="step-content"><div class="title">Go to your repo → Settings → Pages</div><div class="body">Under "Source," select <strong>Deploy from a branch</strong>. Branch = <code>main</code>, folder = <code>/ (root)</code>. Click Save. Your site will be live at <code>https://YOUR-USERNAME.github.io/YOUR-REPO-NAME</code></div></div></div>
+
+  <h3>Create a personal access token</h3>
+  <p>This is how Claude pushes files to your repo on your behalf.</p>
+  <div class="step"><span class="sn">3</span><div class="step-content"><div class="title">Go to GitHub Settings → Developer settings → Personal access tokens → Fine-grained tokens</div><div class="body">Direct link: <a href="https://github.com/settings/tokens?type=beta">github.com/settings/tokens?type=beta</a></div></div></div>
+  <div class="step"><span class="sn">4</span><div class="step-content"><div class="title">Click "Generate new token"</div><div class="body">
+    Name: something like "Claude Deploy"<br>
+    Expiration: "No expiration" (or set a reminder to renew)<br>
+    Repository access: "Only select repositories" → pick your repo<br>
+    Permissions → click <strong>"+ Add permissions"</strong> → set <strong>Contents</strong> to "Read and write"<br>
+    Click "Generate token" — <strong>copy it immediately</strong>, you won't see it again.
+  </div></div></div>
+  <h3>Save the token to your machine</h3>
+  <div class="step"><span class="sn">5</span><div class="step-content"><div class="title">Open Terminal and run:</div><div class="body">
+    <pre><code>echo "YOUR_TOKEN_HERE" > ~/.github-token && chmod 600 ~/.github-token</code></pre>
+    Replace <code>YOUR_TOKEN_HERE</code> with the token you copied. The <code>chmod 600</code> makes sure only you can read it.
+  </div></div></div>
+  <div class="callout callout-info">Verify it saved: run <code>cat ~/.github-token</code> in Terminal and you should see your token printed back.</div>
+</div>
+
+<hr>
+
+<!-- SHORTCUTS -->
+<div class="section" id="shortcuts">
+  <div class="section-header"><span class="snum">4</span><h2>Create your first shortcut</h2></div>
+  <p>Shortcuts are saved prompts you trigger with a slash command. Instead of typing out a full prompt every time, you type <code>/my-shortcut</code> and Claude runs the whole thing.</p>
+
+  <h3>Where to create shortcuts</h3>
+  <div class="step"><span class="sn">1</span><div class="step-content"><div class="title">Click the Claude icon in your Chrome toolbar</div><div class="body">The side panel opens.</div></div></div>
+  <div class="step"><span class="sn">2</span><div class="step-content"><div class="title">Click the Shortcuts tab (lightning bolt icon)</div><div class="body">You'll see any existing shortcuts listed here.</div></div></div>
+  <div class="step"><span class="sn">3</span><div class="step-content"><div class="title">Click "+ New Shortcut"</div><div class="body">Give it a command name (like <code>daily-briefing</code>) and paste your prompt into the content field. Click Save.</div></div></div>
+
+  <h3>What makes a good shortcut prompt</h3>
+  <p>The prompt should be self-contained and specific. Tell Claude exactly what to search for, what format to produce, and where to save the output. Think of it as a recipe Claude follows without asking questions. A good structure:</p>
+  <ol>
+    <li>What to research (categories, sources, timeframe)</li>
+    <li>What to produce (HTML page, report, summary)</li>
+    <li>Where to save it (local file path via Desktop Commander)</li>
+    <li>Where to publish it (GitHub push via API, or post to Teams/Slack)</li>
+  </ol>
+</div>
+<hr>
+
+<!-- SCHEDULE -->
+<div class="section" id="schedule">
+  <div class="section-header"><span class="snum">5</span><h2>Schedule it to run automatically</h2></div>
+  <p>Two ways to put shortcuts on autopilot:</p>
+
+  <h3>Option A: Claude in Chrome scheduled shortcuts</h3>
+  <p>After creating a shortcut, click the <strong>clock icon</strong> in the upper-right corner of the extension panel. Pick a cadence — daily, weekly, monthly — and a time. Claude runs it automatically as long as Chrome is open.</p>
+
+  <h3>Option B: Cowork scheduled tasks</h3>
+  <p>Open Claude Desktop → Cowork → click "+ New task." Describe what you want done, type <code>/schedule</code>, and pick the frequency (hourly, daily, weekly, weekdays only, or on demand). Cowork handles it from there.</p>
+
+  <div class="callout callout-warn">Scheduled tasks only run while your computer is awake and the relevant app (Chrome or Claude Desktop) is open. If your machine is asleep when a task is due, it'll run as soon as you come back online.</div>
+</div>
+
+<hr>
+
+<!-- EXAMPLE -->
+<div class="section" id="example">
+  <div class="section-header"><span class="snum">6</span><h2>Example: daily industry news briefing</h2></div>
+  <p>Here's a real workflow that searches for news every morning, generates a styled HTML briefing, pushes it to GitHub Pages, and posts the link to a Teams chat. Automatically.</p>
+
+  <h3>The shortcut prompt (customize to your industry)</h3>
+  <pre><code>Search the web for today's top news across these categories.
+Use 2-4 searches per category, 2-4 stories each, past 48 hours:
+
+1. **Industry news** — trends, market data, major moves
+2. **Technology** — new tools, AI updates, product launches
+3. **Competitors** — [list your competitors here]
+
+Generate a self-contained HTML briefing with:
+- Top story callout (most impactful overall)
+- Per story: clickable headline, 2-3 sentence summary,
+  "why it matters" note, source name, date
+- Card-grid layout, color-coded by category
+
+Save the HTML via Desktop Commander:
+write_file to ~/Desktop/daily-briefing/index.html
+
+Deploy to GitHub via the Contents API:
+[reads token from ~/.github-token, pushes to your repo]
+
+Post the live link to your team chat.</code></pre>
+  <h3>How the GitHub deploy works</h3>
+  <p>The shortcut includes a small Python script that Claude runs via Desktop Commander. It reads your token from <code>~/.github-token</code>, gets the current file's SHA from the GitHub API, base64-encodes your HTML, and pushes it in one API call. GitHub Pages auto-rebuilds within 1-2 minutes. Your team clicks the link, sees the full briefing.</p>
+
+  <h3>The deploy script (reference)</h3>
+  <pre><code>import requests, base64, os
+
+TOKEN = open(os.path.expanduser("~/.github-token")).read().strip()
+REPO = "YOUR-USERNAME/YOUR-REPO-NAME"
+FILE = "index.html"
+API = f"https://api.github.com/repos/{REPO}/contents/{FILE}"
+HEADERS = {"Authorization": f"Bearer {TOKEN}",
+           "Accept": "application/vnd.github+json"}
+
+# Get current SHA (needed for updates)
+r = requests.get(API, headers=HEADERS)
+sha = r.json().get("sha", "") if r.status_code == 200 else ""
+
+# Read and encode the HTML
+with open(os.path.expanduser("~/Desktop/daily-briefing/index.html"), "rb") as f:
+    content = base64.b64encode(f.read()).decode()
+
+# Push to GitHub
+data = {"message": "Update briefing", "content": content}
+if sha:
+    data["sha"] = sha
+requests.put(API, headers=HEADERS, json=data)</code></pre>
+</div>
+
+<hr>
+<!-- TIPS -->
+<div class="section" id="tips">
+  <div class="section-header"><span class="snum">7</span><h2>Tips and gotchas</h2></div>
+
+  <div class="tip">
+    <div class="tip-title">Split long shortcuts into two</div>
+    <div class="tip-body">If your shortcut does 20+ web searches AND browser automation AND file operations, it may hit tool-call limits. Split into one shortcut for research + file creation, and another for publishing + posting.</div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">GitHub fine-grained tokens can have no expiration</div>
+    <div class="tip-body">Unlike classic tokens, fine-grained tokens let you pick "No expiration." Set it and forget it. If you're security-conscious, set 90 days and add a calendar reminder to renew.</div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">Desktop Commander auto-updates</div>
+    <div class="tip-body">When installed via npx or the Extensions directory, it updates every time you restart Claude Desktop. No maintenance.</div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">Claude in Chrome is Chrome-only</div>
+    <div class="tip-body">Doesn't work on Brave, Arc, or other Chromium browsers. Only Google Chrome (and Microsoft Edge for Claude Code integration).</div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">You can publish multiple projects</div>
+    <div class="tip-body">Create a new GitHub repo for each project. Same token works across all your repos if you gave it "All repositories" access, or scope it to specific ones for tighter security.</div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">Your computer must be awake for scheduled tasks</div>
+    <div class="tip-body">Both Chrome shortcuts and Cowork tasks need your machine on and the app open. Missed tasks run when you come back online.</div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">One repo can host many pages</div>
+    <div class="tip-body">You don't need a separate repo for every file. Push different HTML files to the same repo and access them at <code>username.github.io/repo/filename.html</code>.</div>
+  </div>
+</div>
+<!-- FOOTER -->
+<div class="footer">
+  <p>Last updated: April 2026 &middot; Built with Claude</p>
+</div>
+
+</div><!-- /wrap -->
+</body>
+</html>
